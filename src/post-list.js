@@ -17,9 +17,10 @@ class Post extends React.Component {
         api.posts(this.props.match.params.id).then(data => {
             this.setState({
                 title: data.title.rendered,
-                content: data.content.rendered
+                content: data.content.rendered,
+                author: data._embedded.author[0].name
             })
-        })
+        })        
     }
 
     render(){
@@ -27,7 +28,7 @@ class Post extends React.Component {
 
         return (
             <div className='row'>
-                <h3>{post.title}</h3>
+                <h3>{post.title} <small>by {post.author}</small></h3>
                 <div dangerouslySetInnerHTML={{__html: post.content}} />
             </div>
         )
@@ -49,13 +50,13 @@ class PostList extends React.Component {
             this.setState({
                 posts: data
             })
-        })
+        })        
     }
 
     render() {
         let posts = this.state.posts.map((post, index) => 
             <h3 key={index}>
-                <Link to={`/${post.id}`}>{post.title.rendered}</Link>
+                <Link to={`/${post.id}`}>{post.title.rendered} <small>by {post._embedded.author[0].name}</small></Link>
             </h3>
         )
         return (

@@ -7,6 +7,9 @@ export default class Api {
         if(id !== undefined) {
             url += `/${id}`;
         }
+
+        url += '?_embed';
+
         return fetch(url).then(res => res.json())
     }
 }
