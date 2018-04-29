@@ -1,0 +1,31 @@
+{
+  "name": "react-wordpress-api-boilerplate",
+  "version": "1.0.0",
+  "description": "This is a boilerplate on integrating the WordPress API with React",
+  "main": "index.js",
+  "scripts": {
+    "start": "webpack-dev-server"
+  },
+  "keywords": [],
+  "author": "Amen Ra",
+  "license": "ISC",
+  "devDependencies": {
+    "babel-core": "6.24.1",
+    "babel-loader": "7.0.0",
+    "babel-preset-es2015": "6.24.1",
+    "babel-preset-react": "6.24.1",
+    "webpack": "2.6.0",
+    "webpack-dev-server": "^2.4.5"
+  },
+  "dependencies": {
+    "react": "15.5.4",
+    "react-dom": "15.5.4"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mojaray2k/react-wordpress-api-boilerplate.git"
+  },
+  "bugs": {
+    "url": "https://github.com/mojaray2k/react-wordpress-api-boilerplate/issues"
+  }
+}
