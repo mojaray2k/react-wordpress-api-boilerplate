@@ -10,15 +10,23 @@ export default class CategoryPosts extends PostList{
         }
     }
 
-    componentDidMount(){
+    fetchData(categoryId) {
         let api = new Api();
 
         api.posts({
-            category: this.props.match.params.id
+            category: categoryId
         }).then(data => {
             this.setState({
                 posts: data
             })
-        })        
+        })
+    }
+
+    componentWillReceiveProps(newProps){
+        this.fetchData(newProps.match.params.id);
+    }
+
+    componentDidMount(){
+        this.fetchData(this.props.match.params.id);     
     }
 }
