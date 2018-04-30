@@ -93,4 +93,39 @@ function DeletePostLink(props) {
     return null;
 }
 
-export {auth, LoginLink, LoginForm, DeletePostLink};
+class DeletePost extends React.Component{
+    constructor(){
+        super()
+        this.state = {
+            redirectTo: false
+        }
+        this.deletePost = this.deletePost.bind(this);
+    }
+
+    deletePost() {
+        let api = new Api();
+        api.deletePost(store(), this.props.match.params.id).then(obj => {
+            this.setState({
+                redirectTo: true
+            })
+        }).catch(error => {
+            // TODO: do something with error
+        });
+    }
+
+    render() {
+        if (!auth.isAuthenticated){
+            return <Redirect to="/login" />
+        }
+
+        if (this.state.redirectTo) {
+            return <Redirect to="/" />
+        }
+
+        this.deletePost();
+
+        return null;
+    }
+}
+
+export {auth, LoginLink, LoginForm, DeletePostLink, DeletePost};
