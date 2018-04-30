@@ -1,4 +1,5 @@
-const baseUrl = `http://imaginationeverywhere.info/ie2018/wp-json/wp/v2/`
+const baseUrl = `http://imaginationeverywhere.info/ie2018/wp-json/wp/v2/`;
+const authUrl = `http://imaginationeverywhere.info/ie2018/wp-json/jwt-auth/v1`;
 
 export default class Api {
 
@@ -26,5 +27,22 @@ export default class Api {
         // }
         
         return fetch(url).then(res => res.json());
+    }
+
+    authenticate(username, password) {
+        const headers = new Headers();
+        headers.append('Content-Type', 'application/json');
+
+        return fetch(`${authUrl}/token`, {
+            method: 'POST',
+            headers,
+            body: JSON.stringify({username, password})
+        }).then(res => {
+            if(!res.ok) {
+                throw Error(res.statusText);
+            }
+
+            return res.json();
+        });
     }
 }

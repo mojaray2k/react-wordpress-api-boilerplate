@@ -1,7 +1,7 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
 import Api from './api';
-import {DeletePost} from './auth';
+import {DeletePostLink} from './auth';
 
 class Post extends React.Component {
     constructor() {
@@ -35,7 +35,7 @@ class Post extends React.Component {
             <div className="row">
                 <h3>{post.title} <small>by {post.author}</small></h3>
                 <div dangerouslySetInnerHTML={{__html: post.content}} />
-                <DeletePost id={id} />
+                <DeletePostLink id={id} />
             </div>
         );
     }

@@ -1,19 +1,34 @@
 import React from 'react';
 import {Route, Redirect, Link} from 'react-router-dom';
+import Api from './api';
 
 let _isAuthenticated = false;
 
+function store (value) {
+    const tokenkey = 'ApiTokenValue'
+    if (value === undefined) {
+        return sessionStorage.getItem(tokenkey);
+    }
+
+    sessionStorage.setItem(tokenkey, value);
+}
+
 const auth = {
     get isAuthenticated() {
-        return _isAuthenticated;
+        return store() !== null;
     },
-    authenticate(fn){
-        _isAuthenticated = true;
-        setTimeout(fn, 100);
+    authenticate(username, password, fn){
+        let api = new Api();
+        api.authenticate(username, password).then(obj => {
+            store(obj.token);
+            fn();
+        }).catch(error => {
+            // TODO: do something with error
+        });
     },
     signout(fn){
-        _isAuthenticated = false;
-        setTimeout(fn, 100);
+        store(null);
+        fn();
     }
 }
 
@@ -25,14 +40,27 @@ class LoginForm extends React.Component{
     constructor(){
         super()
         this.state = {
-            redirectTo: false
+            redirectTo: false,
+            username: null,
+            password: null
         }
         this.login = this.login.bind(this);
+        this.handleChange = this.handleChange.bind(this);
     }
 
     login() {
-        auth.authenticate(() => {
+        auth.authenticate(this.state.username, this.state.password, () => {
             this.setState({redirectTo: true});
+        })
+    }
+
+    handleChange (e) {
+        const target = e.target;
+        const value = target.value;
+        const id = target.id;
+
+        this.setState({
+            [id]: value
         })
     }
 
@@ -45,11 +73,11 @@ class LoginForm extends React.Component{
             <div className="row">
                 <div className="form-group">
                     <label htmlFor="username">User Name</label>
-                    <input type="text" className="form-control" id="username" />
+                    <input type="text" className="form-control" id="username" onChange={this.handleChange} />
                 </div>
                 <div className="form-group">
                     <label htmlFor="password">Password</label>
-                    <input type="password" className="form-control" id="password" />
+                    <input type="password" className="form-control" id="password" onChange={this.handleChange}  />
                 </div>
 
                 <button type="submit" className="btn btn-default" onClick={this.login}>Login</button>
@@ -58,11 +86,11 @@ class LoginForm extends React.Component{
     }
 }
 
-function DeletePost(props) {
+function DeletePostLink(props) {
     if (auth.isAuthenticated) {
         return <Link to={`/post/delete/${props.id}`}>Delete Post </Link>;
     }
     return null;
 }
 
-export {auth, LoginLink, LoginForm, DeletePost};
+export {auth, LoginLink, LoginForm, DeletePostLink};
