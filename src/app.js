@@ -4,6 +4,7 @@ import {HashRouter, Switch, Route} from 'react-router-dom';
 import {PostList, Post} from './post-list';
 import CategoryPosts from './category-posts';
 import SiteNav from './sitenav';
+import {LoginForm} from './auth';
 
 class App extends React.Component {  
     render() {
@@ -15,6 +16,7 @@ class App extends React.Component {
                     <Route exact path="/" component={PostList} />
                     <Route path="/post/:id" component={Post} />
                     <Route path="/category/:id" component={CategoryPosts} />
+                    <Route path="/login" component={LoginForm} />
                 </Switch>
             </div>
         )

@@ -1,6 +1,7 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
 import Api from './api';
+import {DeletePost} from './auth';
 
 class Post extends React.Component {
     constructor() {
@@ -28,11 +29,13 @@ class Post extends React.Component {
 
     render() {
         let post = this.state;
+        let id = this.props.match.params.id;
 
         return (
             <div className="row">
                 <h3>{post.title} <small>by {post.author}</small></h3>
                 <div dangerouslySetInnerHTML={{__html: post.content}} />
+                <DeletePost id={id} />
             </div>
         );
     }

@@ -1,6 +1,7 @@
 import Api from './api';
 import React from 'react';
 import {Link} from 'react-router-dom';
+import {LoginLink} from './auth';
 
 class SiteNav extends React.Component {
     constructor() {
@@ -29,7 +30,7 @@ class SiteNav extends React.Component {
             <nav className="navbar navbar-default">
                 <div className="container-fluid">
                     <div className="navbar-header">
-                        <a className="navbar-brand" href="/">Headless Wordpress</a>
+                        <Link to="/" className="navbar-brand">Headless Wordpress</Link>                       
                     </div>
                     <div id="navbar" className="collapse navbar-collapse">
                         <ul className="nav navbar-nav">
@@ -39,6 +40,7 @@ class SiteNav extends React.Component {
                                     {items}
                                 </ul>
                             </li>
+                            <LoginLink />
                         </ul>
                     </div>
                 </div>
