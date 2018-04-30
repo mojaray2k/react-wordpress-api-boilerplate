@@ -1,15 +1,30 @@
 const baseUrl = `http://imaginationeverywhere.info/ie2018/wp-json/wp/v2/`
 
 export default class Api {
-    posts(id) {
+
+    posts(options = {}) {
         let url = `${baseUrl}posts`;
 
-        if(id !== undefined) {
-            url += `/${id}`;
+        if (options.id !== undefined) {
+            url += `/${options.id}`;
         }
 
         url += '?_embed';
 
-        return fetch(url).then(res => res.json())
+        if (options.category !== undefined) {
+            url += `&categories=${options.category}`;
+        }
+        
+        return fetch(url).then(res => res.json());
+    }
+
+    categories() {
+        let url = `${baseUrl}categories`;
+
+        // if (id !== undefined) {
+        //     url += `/${id}`;
+        // }
+        
+        return fetch(url).then(res => res.json());
     }
 }

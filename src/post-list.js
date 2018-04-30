@@ -1,37 +1,40 @@
-import Api from './api';
 import React from 'react';
 import {Link} from 'react-router-dom';
+import Api from './api';
 
 class Post extends React.Component {
     constructor() {
         super();
         this.state = {
             title: '',
-            content: ''
+            content: '',
+            author: ''
         };
     }
 
-    componentDidMount(){
+    componentDidMount() {
         let api = new Api();
 
-        api.posts(this.props.match.params.id).then(data => {
+        api.posts({
+            id: this.props.match.params.id
+        }).then(data => {
             this.setState({
                 title: data.title.rendered,
                 content: data.content.rendered,
                 author: data._embedded.author[0].name
-            })
-        })        
+            });
+        });
     }
 
-    render(){
+    render() {
         let post = this.state;
 
         return (
-            <div className='row'>
+            <div className="row">
                 <h3>{post.title} <small>by {post.author}</small></h3>
                 <div dangerouslySetInnerHTML={{__html: post.content}} />
             </div>
-        )
+        );
     }
 }
 
@@ -40,31 +43,31 @@ class PostList extends React.Component {
         super();
         this.state = {
             posts: []
-        }
+        };
     }
 
-    componentDidMount(){
+    componentDidMount() {
         let api = new Api();
 
         api.posts().then(data => {
             this.setState({
                 posts: data
-            })
-        })        
+            });
+
+            
+        });
     }
 
     render() {
         let posts = this.state.posts.map((post, index) => 
             <h3 key={index}>
-                <Link to={`/${post.id}`}>{post.title.rendered} <small>by {post._embedded.author[0].name}</small></Link>
-            </h3>
-        )
+                <Link to={`/post/${post.id}`}>{post.title.rendered} <small>by {post._embedded.author[0].name}</small></Link>
+            </h3>);
+
         return (
-            <div>
-                {posts}
-            </div>
-        )
-    }    
+            <div>{posts}</div>
+        );
+    }
 }
 
 export {Post, PostList};
